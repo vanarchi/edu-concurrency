@@ -30,8 +30,7 @@ public class CalculatorTest {
 	}
 	
 	@Test
-	public void multiplyByFormatted() throws Exception {
-		assertEquals("threadName: 5 * 10 = 50", calc.multiplyByFormatted(10));
-	}
-
+		public void getMultiplyFormatted() throws Exception {
+			assertEquals("threadName: 5 * 10 = 50", calc.getMultiplyFormatted(10));
+		}
 }

@@ -10,7 +10,7 @@ public class Calculator implements Runnable {
 
 	public void run() {
 		for (int i = 1; i <= 10; i++) {
-			String calculationOutput = multiplyByFormatted(i);
+			String calculationOutput = getMultiplyFormatted(i);
 			printResult(calculationOutput);
 		}
 	}
@@ -19,7 +19,7 @@ public class Calculator implements Runnable {
 		System.out.println(calculationOutput);
 	}
 
-	String multiplyByFormatted(int i) {
+	String getMultiplyFormatted(int i) {
 		return String.format("%s: %d * %d = %d", getThreadName(), number, i, i * number);
 	}
 
