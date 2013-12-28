@@ -8,8 +8,13 @@ public class CalculatorStateMonitor {
 	public static void main(String[] args) throws Exception {
 		Thread threads[] = new Thread[10];
 
+		Runtime.getRuntime().addShutdownHook(new Thread(){@Override
+			public void run() {
+				System.out.println("hooked");
+			}});
 		for (int i = 0; i < 10; i++) {
-			threads[i] = new Thread(new Calculator(i));
+			Thread thread = new Thread(new Calculator(i));
+			threads[i] = thread;
 			if ((i % 2) == 0) {
 				threads[i].setPriority(Thread.MAX_PRIORITY);
 			} else {
@@ -32,9 +37,10 @@ public class CalculatorStateMonitor {
 		boolean finish = false;
 		while (!finish) {
 			for (int i = 0; i < threads.length; i++) {
-				if (threads[i].getState() != savedStatuses[i]) {
-					writeThreadInfo(pw, threads[i], savedStatuses[i]);
-					savedStatuses[i] = threads[i].getState();
+				State newState = threads[i].getState();
+				if (newState != savedStatuses[i]) {
+					writeThreadInfo(pw, threads[i], savedStatuses[i], newState);
+					savedStatuses[i] = newState;
 				}
 			}
 			finish = true;
@@ -61,11 +67,11 @@ public class CalculatorStateMonitor {
 	}
 
 	private static void writeThreadInfo(PrintWriter pw, Thread thread,
-			State state) {
+			State state, State newState) {
 		pw.printf("Main : Id %d - %s\n", thread.getId(), thread.getName());
 		pw.printf("Main : Priority: %d\n", thread.getPriority());
 		pw.printf("Main : Old State: %s\n", state);
-		pw.printf("Main : New State: %s\n", thread.getState());
+		pw.printf("Main : New State: %s\n", newState);
 		pw.printf("Main : ************************************\n");
 	}
 }

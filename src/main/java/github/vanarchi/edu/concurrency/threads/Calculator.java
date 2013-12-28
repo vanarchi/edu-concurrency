@@ -10,6 +10,11 @@ public class Calculator implements Runnable {
 
 	public void run() {
 		for (int i = 1; i <= 10; i++) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			String calculationOutput = getMultiplyFormatted(i);
 			printResult(calculationOutput);
 		}
